@@ -2,13 +2,14 @@
 # Function to list available subjects
 list_subjects() {
     echo "Available subjects/projects:"
-    ls ~/personal_organizer
+    ls "C:\Users\RChen\OneDrive - Bayview Glen Private School\Documents\ISC Workspaces\test-clone\git-pull-test-c\personal_organizer"
+    echo
 }
 # Function to select a subject
 select_subject() {
     echo "Please select a subject/project:"
     read subject
-    if [ -d "$HOME/personal_organizer/$subject" ]; then
+    if [ -d "C:\Users\RChen\OneDrive - Bayview Glen Private School\Documents\ISC Workspaces\test-clone\git-pull-test-c\personal_organizer/$subject" ]; then
         echo "Subject selected: $subject"
     else
         echo "Subject not found. Please ensure the subject exists."
@@ -19,7 +20,7 @@ select_subject() {
 create_subject() {
     echo "Enter the name of the new subject or project:"
     read subject
-    mkdir -p "$HOME/personal_organizer/$subject"
+    mkdir -p "C:\Users\RChen\OneDrive - Bayview Glen Private School\Documents\ISC Workspaces\test-clone\git-pull-test-c\personal_organizer/$subject"
     echo "Folder for $subject created."
 }
 # Function to add a note to the subject
@@ -28,15 +29,15 @@ add_note() {
     if [ -n "$subject" ]; then
         echo "Enter your note:"
         read note
-        echo "$note" >> "$HOME/personal_organizer/$subject/notes.txt"
+        echo "$note" >> "C:\Users\RChen\OneDrive - Bayview Glen Private School\Documents\ISC Workspaces\test-clone\git-pull-test-c\personal_organizer/$subject/notes.txt"
         echo "Note added to $subject."
     fi
 }
 # Function to view notes
 view_notes() {
     select_subject
-    if [ -f "$HOME/personal_organizer/$subject/notes.txt" ]; then
-        cat "$HOME/personal_organizer/$subject/notes.txt"
+    if [ -f "C:\Users\RChen\OneDrive - Bayview Glen Private School\Documents\ISC Workspaces\test-clone\git-pull-test-c\personal_organizer/$subject/notes.txt" ]; then
+        cat "C:\Users\RChen\OneDrive - Bayview Glen Private School\Documents\ISC Workspaces\test-clone\git-pull-test-c\personal_organizer/$subject/notes.txt"
     else
         echo "No notes found for $subject."
     fi
@@ -44,10 +45,10 @@ view_notes() {
 # Function to search notes
 search_notes() {
     select_subject
-    if [ -f "$HOME/personal_organizer/$subject/notes.txt" ]; then
+    if [ -f "C:\Users\RChen\OneDrive - Bayview Glen Private School\Documents\ISC Workspaces\test-clone\git-pull-test-c\personal_organizer/$subject/notes.txt" ]; then
         echo "Enter the keyword to search:"
         read keyword
-        grep "$keyword" "$HOME/personal_organizer/$subject/notes.txt"
+        grep "$keyword" "C:\Users\RChen\OneDrive - Bayview Glen Private School\Documents\ISC Workspaces\test-clone\git-pull-test-c\personal_organizer/$subject/notes.txt"
     else
         echo "No notes found for $subject."
     fi
@@ -55,12 +56,30 @@ search_notes() {
 # Function to archive notes
 archive_notes() {
     select_subject
-    if [ -f "$HOME/personal_organizer/$subject/notes.txt" ]; then
-        tar -czvf "$HOME/personal_organizer/$subject/notes_archive.tar.gz" "$HOME/personal_organizer/$subject/notes.txt"
-        rm "$HOME/personal_organizer/$subject/notes.txt"
+    if [ -f "C:\Users\RChen\OneDrive - Bayview Glen Private School\Documents\ISC Workspaces\test-clone\git-pull-test-c\personal_organizer/$subject/notes.txt" ]; then
+        tar -czvf "C:\Users\RChen\OneDrive - Bayview Glen Private School\Documents\ISC Workspaces\test-clone\git-pull-test-c\personal_organizer/$subject/notes_archive.tar.gz" "C:\Users\RChen\OneDrive - Bayview Glen Private School\Documents\ISC Workspaces\test-clone\git-pull-test-c\personal_organizer/$subject/notes.txt"
+        rm "C:\Users\RChen\OneDrive - Bayview Glen Private School\Documents\ISC Workspaces\test-clone\git-pull-test-c\personal_organizer/$subject/notes.txt"
         echo "Notes for $subject archived and removed."
     else
         echo "No notes to archive for $subject."
+    fi
+}
+# Function to remove a subject folder
+remove_subject(){
+    list_subjects
+    echo "Please select the subject/project you want to delete: "
+    read subject
+    if [ -d "C:\Users\RChen\OneDrive - Bayview Glen Private School\Documents\ISC Workspaces\test-clone\git-pull-test-c\personal_organizer/$subject" ]; then
+        echo "Are you sure you want to delete the subject $subject and all its contents? (y/n)"
+        read confirmation
+        if [ "$confirmation" == "y" ]; then
+            rm -r "C:\Users\RChen\OneDrive - Bayview Glen Private School\Documents\ISC Workspaces\test-clone\git-pull-test-c\personal_organizer/$subject"
+            echo "Subject $subject has been deleted."
+        else
+            echo "Deletion cancelled."
+        fi
+    else
+        echo "Subject not found."
     fi
 }
 # Main Menu
@@ -72,7 +91,8 @@ while true; do
     echo "3. View notes"
     echo "4. Search notes"
     echo "5. Archive notes"
-    echo "6. Exit"
+    echo "6. Remove a subject"
+    echo "7. Exit"
     echo "------------------------"
     echo "Choose an option:"
     read option
@@ -97,6 +117,9 @@ while true; do
             archive_notes
             ;;
         6)
+            remove_subject
+            ;;
+        7)
             echo "Exiting..."
             exit 0
             ;;
